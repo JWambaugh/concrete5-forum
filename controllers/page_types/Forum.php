@@ -39,7 +39,6 @@ class Forum extends PageTypeController
                 $method = 'writeTopic';
                 break;
             case '_answer':
-                $this->writeAnswer();
                 $method = 'writeAnswer';
                 break;
             case '':

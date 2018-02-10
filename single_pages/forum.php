@@ -5,6 +5,7 @@ $date = Core::make('date');
 <table class="table">
     <thead>
     <tr>
+        <th></th>
         <th><?= t('Subject') ?></th>
         <th><?= t('Author') ?></th>
         <th><?= t('Date') ?></th>
@@ -15,6 +16,9 @@ $date = Core::make('date');
     <?php foreach ($topics as $topic) {
         ?>
         <tr>
+            <td>
+            <?php View::element('user_avatar', ['user' => $topic->user], 'ortic_forum') ?>
+            </td>
             <td>
                 <a href="<?= $this->action($topic->getSlug()) ?>">
                     <?= $topic->getSubject() ?>

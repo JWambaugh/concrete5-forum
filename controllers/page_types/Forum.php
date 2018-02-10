@@ -41,6 +41,9 @@ class Forum extends PageTypeController
             case '_answer':
                 $method = 'writeAnswer';
                 break;
+            case '_edit':
+                $method = 'updateMessage';
+                break;
             case '':
                 $method = 'showForum';
                 break;
@@ -83,6 +86,18 @@ class Forum extends PageTypeController
 
         $forum = Core::make('ortic/forum');
         $forum->writeAnswer($topic, $this->post('message'));
+
+        $this->showTopic($slug);
+    }
+
+    /**
+     * Adds a message to an existing topic
+     */
+    protected function updateMessage(string $slug, int $messageId)
+    {
+        $forum = Core::make('ortic/forum');
+        $message = $forum->getMessage($messageId);
+        $forum->writeAnswer($message, $this->post('message'));
 
         $this->showTopic($slug);
     }

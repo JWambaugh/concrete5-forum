@@ -26,6 +26,20 @@ class Forum
     }
 
     /**
+     * Returns a message by id
+     *
+     * @param string $slug
+     * @return mixed
+     */
+    public function getMessage(int $id)
+    {
+        $pkg = Package::getByHandle('ortic_forum');
+        $em = $pkg->getEntityManager();
+        $message = $em->getRepository('Concrete\Package\OrticForum\Src\Entity\ForumMessage')->find($id);
+        return $message;
+    }
+
+    /**
      * Returns a list of messages that belong to the topic specified by $topic
      *
      * @param ForumMessage $topic
@@ -93,6 +107,29 @@ class Forum
         $object->setPageId($page->getCollectionId());
 
         $em->persist($object);
+        $em->flush();
+    }
+
+    /**
+     * Adds a new topic to the current forum (page)
+     *
+     * @param string $subject
+     * @param string $message
+     */
+    public function editMessage(ForumMessage $message, string $subject, string $messageTxt)
+    {
+        $pkg = Package::getByHandle('ortic_forum');
+
+        $em = $pkg->getEntityManager();
+
+        $user = new User();
+        $page = Page::getCurrentPage();
+
+        $message->setSubject($subject);
+        $message->setMessage($messageTxt);
+        $message->setDateUpdated(new \DateTime);
+
+        $em->persist($message);
         $em->flush();
     }
 

@@ -12,7 +12,9 @@ function editClicked(event){
     }
 }
 </script>
-<?php foreach ($messages as $message) { ?>
+<?php foreach ($messages as $message) { 
+    $userIsOwner = ($user->getUserId() == $message->user->getUserId());
+    ?>
     <div class="ortic-forum-message row thumbnail">
         
         <div class="col-xs-1">
@@ -22,7 +24,7 @@ function editClicked(event){
             <div>
                 <strong><?php View::element('user_link', ['user' => $message->user], 'ortic_forum') ?></strong>
                 <?=Core::make('helper/date')->formatDateTime($topic->getDateCreated())?>
-                | <a onclick="editClicked(event)"><?= t('Edit') ?></a>
+                | <?php if($userIsOwner) {?><a onclick="editClicked(event)"><?= t('Edit') ?></a><?php }?>
             </div>
             <div class="ortic-forum-message-text">
                 <p>
@@ -37,8 +39,6 @@ function editClicked(event){
             </div>
 
         </div>
-        
-        
     </div>
 <?php } ?>
 

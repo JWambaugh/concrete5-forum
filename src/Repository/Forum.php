@@ -111,7 +111,7 @@ class Forum
     }
 
     /**
-     * Adds a new topic to the current forum (page)
+     * Modifies an existing message
      *
      * @param string $subject
      * @param string $message

@@ -4,6 +4,7 @@ namespace Concrete\Package\OrticForum\Controller\PageType;
 
 use Concrete\Core\Page\Controller\PageTypeController;
 use Core;
+use User;
 
 class Forum extends PageTypeController
 {
@@ -72,6 +73,7 @@ class Forum extends PageTypeController
 
         array_unshift($messages, $topic);
         $this->set('messages', $messages);
+        $this->set('user', new User());
 
         $this->render('topic', 'ortic_forum');
     }
@@ -97,6 +99,11 @@ class Forum extends PageTypeController
     {
         $forum = Core::make('ortic/forum');
         $message = $forum->getMessage($messageId);
+        $user = new User();
+        if($user->getUserId() != $message->user->getUserId()){
+            $this->showTopic($slug);
+            return;
+        }
         $forum->editMessage($message, $this->post('message'));
 
         $this->showTopic($slug);

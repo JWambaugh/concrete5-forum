@@ -32,29 +32,35 @@ class Forum extends PageTypeController
         $this->parameter = join('/', $parameters);
         $this->lastParameter = end($parameters);
 
+        $method = null;
+
         switch ($this->lastParameter) {
             case '_new':
-                $this->writeTopic();
+                $method = 'writeTopic';
                 break;
             case '_answer':
                 $this->writeAnswer();
+                $method = 'writeAnswer';
                 break;
             case '':
-                $this->showForum();
+                $method = 'showForum';
                 break;
             default:
-                $this->showTopic();
+                $method = 'showTopic';
                 break;
         }
+        //call the appropriate method, passing parameters as parameters to the function
+        call_user_func_array([$this, $method], $parameters);
+
     }
 
     /**
      * Displays all messages from a single topic
      */
-    protected function showTopic()
+    protected function showTopic(string $slug)
     {
         $forum = Core::make('ortic/forum');
-        $topic = $forum->getTopic($this->parameters[0]);
+        $topic = $forum->getTopic($slug);
 
         if (!$topic) {
             $this->replace('/page_not_found');
@@ -71,15 +77,15 @@ class Forum extends PageTypeController
     /**
      * Adds a message to an existing topic
      */
-    protected function writeAnswer()
+    protected function writeAnswer(string $slug)
     {
         $forum = Core::make('ortic/forum');
-        $topic = $forum->getTopic($this->parameters[0]);
+        $topic = $forum->getTopic($slug);
 
         $forum = Core::make('ortic/forum');
         $forum->writeAnswer($topic, $this->post('message'));
 
-        $this->showTopic();
+        $this->showTopic($slug);
     }
 
     /**

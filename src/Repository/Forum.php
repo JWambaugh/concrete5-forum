@@ -116,7 +116,7 @@ class Forum
      * @param string $subject
      * @param string $message
      */
-    public function editMessage(ForumMessage $message, string $subject, string $messageTxt)
+    public function editMessage(ForumMessage $message, string $messageTxt)
     {
         $pkg = Package::getByHandle('ortic_forum');
 
@@ -125,7 +125,6 @@ class Forum
         $user = new User();
         $page = Page::getCurrentPage();
 
-        $message->setSubject($subject);
         $message->setMessage($messageTxt);
         $message->setDateUpdated(new \DateTime);
 

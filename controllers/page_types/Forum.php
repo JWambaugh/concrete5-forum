@@ -32,25 +32,23 @@ class Forum extends PageTypeController
         $this->parameter = join('/', $parameters);
         $this->lastParameter = end($parameters);
 
-        $method = null;
-
-        switch ($this->lastParameter) {
-            case '_new':
-                $method = 'writeTopic';
-                break;
-            case '_answer':
-                $method = 'writeAnswer';
-                break;
-            case '_edit':
-                $method = 'updateMessage';
-                break;
-            case '':
-                $method = 'showForum';
-                break;
-            default:
-                $method = 'showTopic';
-                break;
+        $method = 'showTopic'; //default
+        if($this->lastParameter == ''){
+            $method = 'showForum'; //show the forum if we have no params
+        } else if($this->getRequest()->isPost()) { //only call these if posted
+            switch ($this->lastParameter) {
+                case '_new':
+                    $method = 'writeTopic';
+                    break;
+                case '_answer':
+                    $method = 'writeAnswer';
+                    break;
+                case '_edit':
+                    $method = 'updateMessage';
+                    break;
+            }
         }
+        
         //call the appropriate method, passing parameters as parameters to the function
         call_user_func_array([$this, $method], $parameters);
 
@@ -71,6 +69,8 @@ class Forum extends PageTypeController
         $messages = $forum->getMessages($topic);
 
         $this->set('topic', $topic);
+
+        array_unshift($messages, $topic);
         $this->set('messages', $messages);
 
         $this->render('topic', 'ortic_forum');
@@ -97,7 +97,7 @@ class Forum extends PageTypeController
     {
         $forum = Core::make('ortic/forum');
         $message = $forum->getMessage($messageId);
-        $forum->writeAnswer($message, $this->post('message'));
+        $forum->editMessage($message, $this->post('message'));
 
         $this->showTopic($slug);
     }

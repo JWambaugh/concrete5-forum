@@ -9,10 +9,13 @@ $token = Core::make('token');
 <?php if ($forumError) { ?>
     <div class="alert alert-danger"><?= $forumError ?></div>
 <?php } ?>
+<h1><?= $currentPage->getCollectionName() ?></h1>
 
 <div class="row">
     <div class="col-xs-12 col-sm-9">
-        <h1><?= $currentPage->getCollectionName() ?></h1>
+        <div class="btn-group">
+            <a class="btn btn-default" href="./"> Back to Topics </a>
+        </div>
     </div>
     <div class="col-xs-12 col-sm-3 text-right">
         <div class="btn-group" role="group">
@@ -64,7 +67,7 @@ $token = Core::make('token');
                     <?= nl2br($message->getMessage()) ?>
                 </p>
                 <?php if ($attachment = $message->getAttachmentFile()) { ?>
-                    <a href="<?= $attachment->getURL() ?>" target="_blank"><?= $attachment->getFileName() ?></a>
+                    <?php View::element('show_attachment', ['user' => $message->user, 'attachment' => $attachment], 'ortic_forum') ?>
                 <?php } ?>
             </div>
             <div class="ortic-forum-message-edit" style="display: none;">

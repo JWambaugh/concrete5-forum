@@ -108,7 +108,7 @@ class ForumTopic extends PageTypeController
      * @param int $messageId
      * @return \Concrete\Core\Routing\RedirectResponse|void
      */
-    public function updateMessage(int $messageId)
+    public function updateMessage($messageId)
     {
         $token = Core::make('token');
 
@@ -144,7 +144,7 @@ class ForumTopic extends PageTypeController
      * @param string $tokenId
      * @return \Concrete\Core\Routing\RedirectResponse|void
      */
-    public function deleteMessage(int $messageId, $tokenId)
+    public function deleteMessage($messageId, $tokenId)
     {
         $token = Core::make('token');
 

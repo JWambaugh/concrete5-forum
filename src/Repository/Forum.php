@@ -27,7 +27,7 @@ class Forum
      * @param int $id
      * @return mixed
      */
-    public function getTopicById(int $id)
+    public function getTopicById($id)
     {
         $pkg = Core::make(PackageService::class)->getByHandle('ortic_forum');
         $em = $pkg->getEntityManager();
@@ -41,7 +41,7 @@ class Forum
      * @param int $id
      * @return mixed
      */
-    public function getMessage(int $id)
+    public function getMessage($id)
     {
         $pkg = Core::make(PackageService::class)->getByHandle('ortic_forum');
         $em = $pkg->getEntityManager();
@@ -90,7 +90,7 @@ class Forum
      * @return ForumMessage
      * @throws \Exception
      */
-    public function writeAnswer(string $message, Version $attachment = null)
+    public function writeAnswer($message, Version $attachment = null)
     {
         $pkg = Core::make(PackageService::class)->getByHandle('ortic_forum');
         $em = $pkg->getEntityManager();
@@ -170,7 +170,7 @@ class Forum
      * @param ForumMessage $message
      * @param string $messageTxt
      */
-    public function updateMessage(ForumMessage $message, string $messageTxt)
+    public function updateMessage(ForumMessage $message, $messageTxt)
     {
         $pkg = Core::make(PackageService::class)->getByHandle('ortic_forum');
 
@@ -263,7 +263,7 @@ class Forum
      * @param Version $attachment
      * @return \Concrete\Core\Page\Page
      */
-    public function writeTopic(string $subject, string $message, Version $attachment = null)
+    public function writeTopic($subject, $message, Version $attachment = null)
     {
         $pkg = Core::make(PackageService::class)->getByHandle('ortic_forum');
 

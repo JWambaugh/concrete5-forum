@@ -64,7 +64,7 @@ $token = Core::make('token');
             </div>
             <div class="ortic-forum-message-text">
                 <p>
-                    <?= nl2br($message->getMessageHtml()) ?>
+                    <?= $message->getMessageHtml() ?>
                 </p>
                 <?php if ($attachment = $message->getAttachmentFile()) { ?>
                     <a href="<?= $attachment->getURL() ?>" target="_blank"><?= $attachment->getFileName() ?></a>

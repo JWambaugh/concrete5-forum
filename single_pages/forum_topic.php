@@ -2,6 +2,9 @@
 $token = Core::make('token');
 ?>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
 <?php if ($forumSuccess) { ?>
     <div class="alert alert-success"><?= $forumSuccess ?></div>
 <?php } ?>
@@ -64,7 +67,7 @@ $token = Core::make('token');
             </div>
             <div class="ortic-forum-message-text">
                 <p>
-                    <?= nl2br($message->getMessage()) ?>
+                    <?= nl2br($message->getMessageHtml()) ?>
                 </p>
                 <?php if ($attachment = $message->getAttachmentFile()) { ?>
                     <?php View::element('show_attachment', ['user' => $message->user, 'attachment' => $attachment], 'ortic_forum') ?>
@@ -74,7 +77,7 @@ $token = Core::make('token');
                 <form method="POST" action="<?= $this->action('updateMessage', [$message->getID()]) ?>">
                     <?= $token->output('updateMessage'); ?>
 
-                    <textarea class="form-control" name="message" id="message" placeholder=""><?= $message->getMessage() ?></textarea>
+                    <textarea class="form-control ortic-forum-message-edit-text" name="message" id="txt-message-<?= $message->getID() ?>" placeholder=""><?= $message->getMessage() ?></textarea>
                     <button class="btn btn-primary"><?= t('Save') ?></button>
                 </form>
             </div>

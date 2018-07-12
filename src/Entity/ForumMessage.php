@@ -8,6 +8,7 @@ use Concrete\Core\Page\Collection\Collection;
 use Core;
 use File;
 use Page;
+use Michelf\Markdown;
 
 /**
  * @Entity
@@ -206,7 +207,12 @@ class ForumMessage implements FileTrackableInterface
      */
     public function getMessage()
     {
-        return $this->message;
+        return strip_tags($this->message);
+    }
+
+    public function getMessageHtml()
+    {
+        return Markdown::defaultTransform(strip_tags($this->message));
     }
 
     public function getMessageTeaser($length = 120)
@@ -222,7 +228,7 @@ class ForumMessage implements FileTrackableInterface
      */
     public function setMessage($message)
     {
-        $this->message = $message;
+        $this->message = strip_tags($message);
         return $this;
     }
 
